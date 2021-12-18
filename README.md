@@ -1,3 +1,7 @@
+# Deployed app
+
+This application is deployed at https://boiling-spire-30118.herokuapp.com/
+
 # Convert store into Redux
 
 AS a senior engineer working on an e-commerce platform
