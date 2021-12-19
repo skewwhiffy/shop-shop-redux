@@ -22,3 +22,4 @@ THEN I find that the app uses Redux instead of the Context API
 
 TODO: Remove counterSlice from store, and the Counter component
 TODO: Persist through browser refresh, see https://stackoverflow.com/questions/37195590/how-can-i-persist-redux-state-tree-on-refresh
+TODO: Remove the reducers.js file
