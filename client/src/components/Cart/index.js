@@ -36,7 +36,7 @@ const Cart = () => {
     if (!state.cart.length) {
       getCart();
     }
-  }, [state.cart.length, oldDispatch]);
+  }, [state.cart.length, dispatch]);
 
   function toggleCart() {
     oldDispatch({ type: TOGGLE_CART });

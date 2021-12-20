@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
 import { useStoreContext } from '../utils/GlobalState';
 import { updateProducts } from '../redux/slice/product';
-import { addToCart } from '../redux/slice/cart';
+import { addToCart, updateCartQuantity } from '../redux/slice/cart';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -19,12 +19,13 @@ const addToCartStore = addToCart;
 function Detail() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const products = useSelector(state => state.product.products);
+  const cart = useSelector(state => state.cart.cart);
 
   // TODO: REMOVE
-  const [state, oldDispatch] = useStoreContext();
+  const [oldDispatch] = useStoreContext();
   const [currentProduct, setCurrentProduct] = useState({});
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const { products, cart } = state;
 
   useEffect(() => {
     // already in global store
@@ -50,11 +51,10 @@ function Detail() {
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
-      oldDispatch({
-        type: UPDATE_CART_QUANTITY,
+      dispatch(updateCartQuantity({
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
+      }))
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,

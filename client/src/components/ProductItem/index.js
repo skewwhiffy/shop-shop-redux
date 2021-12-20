@@ -13,7 +13,7 @@ function ProductItem(item) {
   const cart = useSelector(state => state.cart.cart);
 
   // TODO: Get rid of this
-  const [state, oldDispatch] = useStoreContext();
+  const [_, oldDispatch] = useStoreContext();
 
   const {
     image,

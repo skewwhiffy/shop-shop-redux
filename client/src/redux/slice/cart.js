@@ -8,26 +8,20 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      state.cartOpen = true
-      state.cart = [...state.cart, action.payload]
+      state.cartOpen = true;
+      state.cart = [...state.cart, action.payload];
     },
     addMultipleToCart: (state, action) => {
-      state.cart = [...state.cart, ...action.payload]
+      state.cart = [...state.cart, ...action.payload];
     },
     updateCartQuantity: (state, action) => {
-      /*
-    case UPDATE_CART_QUANTITY:
-      return {
-        ...state,
-        cartOpen: true,
-        cart: state.cart.map(product => {
-          if (action._id === product._id) {
-            product.purchaseQuantity = action.purchaseQuantity
-          }
-          return product
-        })
-      };
-      */
+      state.cartOpen = true;
+      cart: state.cart.map(product => {
+        if (action.payload._id === product._id) {
+          product.purchaseQuantity = action.payload.purchaseQuantity;
+        }
+        return product;
+      })
     },
     removeFromCart: (state, action) => {
       /*
