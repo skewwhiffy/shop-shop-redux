@@ -4,7 +4,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
-import { useStoreContext } from '../utils/GlobalState';
 import { updateProducts } from '../redux/slice/product';
 import { addToCart, updateCartQuantity, removeFromCart } from '../redux/slice/cart';
 import { QUERY_PRODUCTS } from '../utils/queries';
@@ -19,8 +18,6 @@ function Detail() {
   const products = useSelector(state => state.product.products);
   const cart = useSelector(state => state.cart.cart);
 
-  // TODO: REMOVE
-  const [oldDispatch] = useStoreContext();
   const [currentProduct, setCurrentProduct] = useState({});
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
