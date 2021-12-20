@@ -16,7 +16,7 @@ export const cartSlice = createSlice({
     },
     updateCartQuantity: (state, action) => {
       state.cartOpen = true;
-      cart: state.cart.map(product => {
+      state.cart = state.cart.map(product => {
         if (action.payload._id === product._id) {
           product.purchaseQuantity = action.payload.purchaseQuantity;
         }
@@ -24,18 +24,11 @@ export const cartSlice = createSlice({
       })
     },
     removeFromCart: (state, action) => {
-      /*
-    case REMOVE_FROM_CART:
-      let newState = state.cart.filter(product => {
-        return product._id !== action._id;
+      const newState = state.cart.filter(product => {
+        return product._id !== action.payload;
       });
-
-      return {
-        ...state,
-        cartOpen: newState.length > 0,
-        cart: newState
-      };
-      */
+      state.cartOpen = newState.length > 0;
+      state.cart = newState;
     },
     clearCart: (state, action) => {
       /*
@@ -48,13 +41,7 @@ export const cartSlice = createSlice({
       */
     },
     toggleCart: (state, action) => {
-/*
-    case TOGGLE_CART:
-      return {
-        ...state,
-        cartOpen: !state.cartOpen
-      };
-      */
+      state.cartOpen = !state.cartOpen;
     }
   }
 })

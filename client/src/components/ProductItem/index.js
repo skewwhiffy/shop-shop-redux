@@ -1,19 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { pluralize } from '../../utils/helpers'
-import { useStoreContext } from '../../utils/GlobalState';
 import { useDispatch, useSelector } from 'react-redux';
-import { UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
-import { addToCart } from '../../redux/slice/cart';
+import { addToCart, updateCartQuantity } from '../../redux/slice/cart';
 const addToCartStore = addToCart;
 
 function ProductItem(item) {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart.cart);
-
-  // TODO: Get rid of this
-  const [_, oldDispatch] = useStoreContext();
 
   const {
     image,
@@ -26,11 +21,10 @@ function ProductItem(item) {
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id)
     if (itemInCart) {
-      oldDispatch({
-        type: UPDATE_CART_QUANTITY,
+      dispatch(updateCartQuantity({
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
-      });
+      }));
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
