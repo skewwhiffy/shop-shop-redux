@@ -6,14 +6,15 @@ import { useQuery } from '@apollo/client';
 import Cart from '../components/Cart';
 import { useStoreContext } from '../utils/GlobalState';
 import { updateProducts } from '../redux/slice/product';
+import { addToCart } from '../redux/slice/cart';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
-  ADD_TO_CART
 } from '../utils/actions';
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
+const addToCartStore = addToCart;
 
 function Detail() {
   const dispatch = useDispatch();
@@ -59,10 +60,7 @@ function Detail() {
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
     } else {
-      oldDispatch({
-        type: ADD_TO_CART,
-        product: { ...currentProduct, purchaseQuantity: 1 },
-      });
+      dispatch(addToCartStore({ ...currentProduct, purchaseQuantity: 1 }));
       idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
     }
   };
