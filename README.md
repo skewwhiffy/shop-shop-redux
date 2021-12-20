@@ -1,25 +1,19 @@
-# Deployed app
+# Shop-Shop
+
+A simple e-commerce platform built with the following tech stack
+* React (for frontend)
+* Redux (for global state management in the frontend)
+* indexedDB (for frontend global state persistence)
+* node.js (for the backend)
+* graphql (for integration of the frontend and backend)
+* MongoDB (for data storage)
+
+The platform features
+* Product categories
+* A shopping cart
+* Authentication
+* Integration with the Stripe payment API
+
+## Deployed app
 
 This application is deployed at https://boiling-spire-30118.herokuapp.com/
-
-# Convert store into Redux
-
-AS a senior engineer working on an e-commerce platform
-I WANT my platform to use Redux to manage global state instead of the Context API
-SO THAT my website's state management is taken out of the React ecosystem
-
-GIVEN an e-commerce platform that uses Redux to manage global state
-WHEN I review the app’s store
-THEN I find that the app uses a Redux store instead of the Context API
-WHEN I review the way the React front end accesses the store
-THEN I find that the app uses a Redux provider
-WHEN I review the way the app determines changes to its global state
-THEN I find that the app passes reducers to a Redux store instead of using the Context API
-WHEN I review the way the app extracts state data from the store
-THEN I find that the app uses Redux instead of the Context API
-WHEN I review the way the app dispatches actions
-THEN I find that the app uses Redux instead of the Context API
-
-TODO: Remove counterSlice from store, and the Counter component
-TODO: Persist through browser refresh, see https://stackoverflow.com/questions/37195590/how-can-i-persist-redux-state-tree-on-refresh
-TODO: Remove the reducers.js file
