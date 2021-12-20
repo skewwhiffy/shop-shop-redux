@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
-import { useStoreContext } from '../utils/GlobalState';
 import { updateProducts } from '../redux/slice/product';
-import {
-  REMOVE_FROM_CART,
-  UPDATE_CART_QUANTITY,
-  ADD_TO_CART
-} from '../utils/actions';
+import { addToCart, updateCartQuantity, removeFromCart } from '../redux/slice/cart';
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
+const addToCartStore = addToCart;
+const removeFromCartStore = removeFromCart;
 
 function Detail() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const products = useSelector(state => state.product.products);
+  const cart = useSelector(state => state.cart.cart);
 
-  // TODO: REMOVE
-  const [state, oldDispatch] = useStoreContext();
   const [currentProduct, setCurrentProduct] = useState({});
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const { products, cart } = state;
 
   useEffect(() => {
     // already in global store
@@ -49,30 +45,22 @@ function Detail() {
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
-      oldDispatch({
-        type: UPDATE_CART_QUANTITY,
+      dispatch(updateCartQuantity({
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
+      }))
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
     } else {
-      oldDispatch({
-        type: ADD_TO_CART,
-        product: { ...currentProduct, purchaseQuantity: 1 },
-      });
+      dispatch(addToCartStore({ ...currentProduct, purchaseQuantity: 1 }));
       idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
     }
   };
 
   const removeFromCart = () => {
-    oldDispatch({
-      type: REMOVE_FROM_CART,
-      _id: currentProduct._id,
-    });
-
+    dispatch(removeFromCartStore(currentProduct._id));
     idbPromise('cart', 'delete', { ...currentProduct });
   };
 
